@@ -4,7 +4,33 @@ import Task from "../../models/task.model";
 
 // [GET] /tasks
 export const index = async (req: Request, res: Response) => {
-  const tasks = await Task.find({});
+
+  const find = {
+    deleted: false
+  }
+
+  // Loc theo Trang thai
+  const status = req.query.status;
+
+  if(status) {
+      find["status"] = status;
+  }
+  //Het loc trang thai 
+
+
+  //Sap xep
+  const sort = {};
+
+  const sortKey = req.query.sortKey;
+  const sortValue = req.query.sortValue;
+
+  if(sortKey && sortValue) {
+      sort["sortKey"] = sortValue;
+  }
+  //Het sap xep 
+
+
+  const tasks = await Task.find(find);
   res.json(tasks);
 }
 
