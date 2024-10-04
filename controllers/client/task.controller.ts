@@ -96,8 +96,8 @@ export const changeStatus = async (req: Request, res: Response) => {
 export const create = async (req: Request, res: Response) => {
   try {   
       
-      // const id = req.user.id;
-      // req.body.createdBy = id;
+      const id = req["user"].id;
+      req.body["createdBy"] = id;
 
       const task = new Task(req.body);
       await task.save();
