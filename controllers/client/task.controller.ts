@@ -116,10 +116,10 @@ export const create = async (req: Request, res: Response) => {
 
 
 // [PATCH] /tasks/edit/:id
-export const edit = async (req,res) => {
+export const edit = async (req: Request, res: Response) => {
   try {   
       
-      const id = req.params.id;
+      const id: string = req.params.id;
       const data = req.body;
 
       await Task.updateOne({
@@ -129,6 +129,29 @@ export const edit = async (req,res) => {
       res.json({
           message: "Cập nhật công việc thành công!"
       })
+
+  } catch(error) {
+      res.json({
+          message: "Not Found"
+      });
+  }
+}
+
+
+// [PATCH] /tasks/delete
+export const deleteTask = async (req: Request, res: Response) => {
+  try {
+      const ids: string[] = req.body.ids;
+      
+      await Task.updateMany({
+          _id: { $in: ids }
+      }, {
+          deleted: true
+      })
+      
+      res.json({
+          message: "Xóa công việc thành công"
+      });
 
   } catch(error) {
       res.json({
