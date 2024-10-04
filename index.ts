@@ -1,16 +1,19 @@
-import express, { Express, Request, Response } from "express";
-import dotenv from 'dotenv';
+import express, { Express } from "express";
+import dotenv from "dotenv";
 dotenv.config();
+import bodyParser from 'body-parser';
 
 import { connectDatabase } from "./config/database";
-import { routeApi } from "./routes/client/index.route";
+import { routesApi } from "./routes/client/index.route";
+
 connectDatabase();
 
-
 const app: Express = express();
-const port: number | string = process.env.port || 3000;
+const port: number | string = process.env.PORT || 3000;
 
-routeApi(app);
+app.use(bodyParser.json());
+
+routesApi(app);
 
 
 app.listen(port, () => {
